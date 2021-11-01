@@ -6,3 +6,4 @@
 * random mutation
 * evolutionary loop
 * test
+* handle 'Inf' in cost function

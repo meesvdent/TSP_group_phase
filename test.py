@@ -27,7 +27,7 @@ def test_k_tournament(population):
 
 if __name__ == "__main__":
     test_individual()
-    dist_matrix = test_file('./data/tour29.csv')
+    dist_matrix = test_file('./data/tour100.csv')
     test_population = test_population(dist_matrix)
     print("K tournament: ")
     print(test_k_tournament(test_population))
