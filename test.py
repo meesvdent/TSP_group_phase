@@ -9,9 +9,10 @@ def test_individual():
 
     order[5] = 10
 
-def test_population():
-    dist_matrix = test_file('tour29.csv')
+def test_population(dist_matrix):
     pop_one = Population(100, dist_matrix)
+    pop_one.init_population()
+    return pop_one
 
 
 def test_file(filename):
@@ -20,17 +21,15 @@ def test_file(filename):
     file.close()
     return distanceMatrix
 
-def test_k_tournament():
-    dist_matrix = test_file('tour29.csv')
-    pop_two = Population(100, dist_matrix)
-    pop_two.init_population()
-    print("k tournament")
-    print(pop_two.k_tournament(5))
+def test_k_tournament(population):
+    return population.k_tournament(5)
+
 
 if __name__ == "__main__":
     test_individual()
-    test_file('tour29.csv')
-    test_population()
-    test_k_tournament()
+    dist_matrix = test_file('./data/tour29.csv')
+    test_population = test_population(dist_matrix)
+    print("K tournament: ")
+    print(test_k_tournament(test_population))
 
 
