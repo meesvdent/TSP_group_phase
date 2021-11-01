@@ -1,5 +1,6 @@
 import Reporter
 import numpy as np
+from population import Population
 
 
 # Modify the class name to match your student number.
@@ -10,33 +11,40 @@ class r0123456:
 
     # The evolutionary algorithm's main loop
     def optimize(self, filename):
+
+        poputation_size = 500
+        new_poputation_size = 500
+        offspring_size = 500
+        k = 10
+        mutation_prob = 0.05
+        iterations = 50
+
         # Read distance matrix from file.
         file = open(filename)
         distanceMatrix = np.loadtxt(file, delimiter=",")
-        print(distanceMatrix)
+        # print(distanceMatrix)
         file.close()
 
 
-        # Your code here.
+        population = Population(poputation_size, distanceMatrix)
+        population.init_population()
 
-        while (yourConvergenceTestsHere):
+        while iterations != 0:
 
-            # Your code here.
-
-            # Call the reporter with:
-            #  - the mean objective function value of the population
-            #  - the best objective function value of the population
-            #  - a 1D numpy array in the cycle notation containing the best solution
+            population.breed(offspring_size, k, mutation_prob)
+            population.elimination(new_poputation_size, k)
+            population.calculate_stats()
             #    with city numbering starting from 0
-            timeLeft = self.reporter.report(meanObjective, bestObjective, bestSolution)
+            timeLeft = self.reporter.report(population.mean_objective, population.best_solution.value, np.array(population.best_solution.route))
             if timeLeft < 0:
                 break
 
-        # Your code here.
+            iterations -= 1
+            print(iterations)
+            print(population.best_solution.is_feasible)
         return 0
 
 
 if __name__ == "__main__":
     object = r0123456()
-    object.optimize("tour29.csv")
-
+    object.optimize("./data/tour100.csv")
