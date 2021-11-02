@@ -12,11 +12,11 @@ class r0123456:
     # The evolutionary algorithm's main loop
     def optimize(self, filename):
 
-        poputation_size = 500
+        poputation_size = 50
         new_poputation_size = 500
-        offspring_size = 500
-        k = 10
-        mutation_prob = 0.05
+        offspring_size = 1000
+        k = 5
+        mutation_prob = 0.3
         iterations = 50
 
         # Read distance matrix from file.
@@ -48,4 +48,4 @@ class r0123456:
 
 if __name__ == "__main__":
     object = r0123456()
-    object.optimize("./data/tour100.csv")
+    object.optimize("./data/tour929.csv")

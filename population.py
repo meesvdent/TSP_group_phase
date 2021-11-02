@@ -6,6 +6,7 @@ Class which holds the population
 import numpy as np
 from individual import Individual
 import random
+import copy
 
 class Population:
 
@@ -16,11 +17,12 @@ class Population:
         self.mean_objective = 0
 
     def init_population(self):
+        possible_nodes = self.create_possible_nodes()
         for i in range(self.population_size):
-            route = self.random_depth_first_search()
+            route = self.random_depth_first_search(copy.deepcopy(possible_nodes))
             self.population[i] = Individual(route)
 
-    def random_depth_first_search(self):
+    def create_possible_nodes(self):
         # Create possible goal nodes for each node, eliminate 'inf' and zero values
         possible_nodes = []
         for i in range(self.distance_matrix.shape[0]):
@@ -28,6 +30,9 @@ class Population:
             for j in range(self.distance_matrix.shape[0]):
                 if not (np.isinf(self.distance_matrix[i, j]) or self.distance_matrix[i, j] == 0):
                     possible_nodes[i].append(j)
+        return possible_nodes
+
+    def random_depth_first_search(self, possible_nodes):
 
         # shuffle each set of goal nodes
         for i in range(len(possible_nodes)):
