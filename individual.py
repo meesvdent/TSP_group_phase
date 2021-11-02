@@ -15,7 +15,6 @@ class Individual:
     def __repr__(self):
         return str(self.route)
 
-
     def cost_function(self, distances):
         self.value = 0
         for i in range(len(self.route)-1):
