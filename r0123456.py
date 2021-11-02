@@ -25,7 +25,6 @@ class r0123456:
         # print(distanceMatrix)
         file.close()
 
-
         population = Population(poputation_size, distanceMatrix)
         population.init_population()
 
@@ -40,8 +39,10 @@ class r0123456:
                 break
 
             iterations -= 1
-            print(iterations)
-            print(population.best_solution.is_feasible)
+            print("Iteration: ", iterations)
+            print("Best solution is feasible: ", population.best_solution.is_feasible)
+            print("Best solution cost: ", population.best_solution.value)
+            print("Mean solution: ", population.mean_objective)
         return 0
 
 

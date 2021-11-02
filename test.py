@@ -31,14 +31,7 @@ if __name__ == "__main__":
     # print(test_1.edge_crossover(test_2))
     # test_individual()
     dist_matrix = test_file('./data/tour100.csv')
-    print(dist_matrix[:10][1])
-    for i in dist_matrix[:10][1]:
-        if i =='Inf':
-            print("a")
-        if i == 'inf':
-            print('b')
-        print(np.isinf(i))
-
-    # test_population = test_population(dist_matrix)
+    test_population = test_population(dist_matrix)
+    test_population.depth_first_search()
     # print("K tournament: ")
     # print(test_k_tournament(test_population))

@@ -17,25 +17,49 @@ class Population:
 
     def init_population(self):
         for i in range(self.population_size):
-            route = [np.random.randint(self.distance_matrix.shape[0])]
-
-            for j in range(self.distance_matrix.shape[0] - 1):
-                infinity_edges = set()
-                for k in range(self.distance_matrix.shape[0]-1):
-                    if np.isinf(self.distance_matrix[route[-1], k]):
-                        infinity_edges.add(k)
-                choices = set(range(self.distance_matrix.shape[0])) - set(route) - infinity_edges
-                if len(choices) == 0:
-                    a = [i for i in range(self.distance_matrix.shape[0]) if i not in route]
-                    random.shuffle(a)
-                    route = np.concatenate((route, a))
-                    break
-                route.append(random.choice(list(choices)))
-
+            route = self.random_depth_first_search()
             self.population[i] = Individual(route)
-            # self.population[i] = Individual(np.random.permutation(self.distance_matrix.shape[0]))
 
-        return self.population
+    def random_depth_first_search(self):
+        # Create possible goal nodes for each node, eliminate 'inf' and zero values
+        possible_nodes = []
+        for i in range(self.distance_matrix.shape[0]):
+            possible_nodes.append([])
+            for j in range(self.distance_matrix.shape[0]):
+                if not (np.isinf(self.distance_matrix[i, j]) or self.distance_matrix[i, j] == 0):
+                    possible_nodes[i].append(j)
+
+        # shuffle each set of goal nodes
+        for i in range(len(possible_nodes)):
+            random.shuffle(possible_nodes[i])
+
+        # choose random start point and remove from edge table
+        route = [np.random.randint(self.distance_matrix.shape[0])]
+        for i in range(len(possible_nodes)):
+            if route[-1] in possible_nodes[i]:
+                possible_nodes[i].remove(route[-1])
+
+        # discovered
+        discovered = [[]] * self.distance_matrix.shape[0]
+
+        # main loop
+        while len(route) < self.distance_matrix.shape[0]:
+            if len(possible_nodes[route[-1]]) > 0:
+                # add first element of nodes connected vertices
+                route.append(possible_nodes[route[-1]][0])
+                for i in range(len(possible_nodes)):
+                    if route[-1] in possible_nodes[i]:
+                        possible_nodes[i].remove(route[-1])
+                        discovered[i].append(route[-1])
+            else:
+                # backtrack
+                # remove from route
+                last = route[-1]
+                route = route[0:len(route) - 1]
+                for i in range(self.distance_matrix.shape[0]):
+                    if last in discovered[i] and i not in route:
+                        possible_nodes[i].insert(0, last)
+        return route
 
     def k_tournament_selection(self, k):
         selected = random.sample(list(self.population), k)
