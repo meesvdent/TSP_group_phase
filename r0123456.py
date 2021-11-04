@@ -14,10 +14,11 @@ class r0123456:
 
         poputation_size = 500
         new_poputation_size = 500
-        offspring_size = 500
+        offspring_size = 250
         k = 3
         mutation_prob = 0.1
         iterations = 100
+        show_feasible = False
 
         # Read distance matrix from file.
         file = open(filename)
@@ -29,11 +30,12 @@ class r0123456:
         population = Population(poputation_size, distanceMatrix)
         population.init_population()
         population.calculate_stats()
-        cnt = 0
-        for i in population.population:
-            if not i.is_feasible:
-                cnt += 1
-        print("Solutions not feasible= "+str(cnt))
+        if show_feasible:
+            cnt = 0
+            for i in population.population:
+                if not i.is_feasible:
+                    cnt += 1
+            print("Solutions not feasible= "+str(cnt))
         print("Initialization done")
 
         while iterations != 0:
@@ -48,16 +50,17 @@ class r0123456:
 
             iterations -= 1
             print(iterations)
-            cnt = 0
-            for i in population.population:
-                if not i.is_feasible:
-                    cnt += 1
-            print("Solutions not feasible= "+str(cnt))
-            # print(population.best_solution.is_feasible)
+            if show_feasible:
+                cnt = 0
+                for i in population.population:
+                    if not i.is_feasible:
+                        cnt += 1
+                print("Solutions not feasible= "+str(cnt))
+                print(population.best_solution.is_feasible)
         print("timeLeft= "+str(timeLeft))
         return 0
 
 
 if __name__ == "__main__":
     object = r0123456()
-    object.optimize("./data/tour100.csv")
+    object.optimize("./data/tour29.csv")

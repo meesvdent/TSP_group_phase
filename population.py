@@ -16,7 +16,7 @@ class Population:
         self.distance_matrix = distance_matrix
         self.population = np.empty(self.population_size, dtype=Individual)
         self.mean_objective = 0
-        self.__processes__= 8
+        self.__processes__= 4
 
     # def init_population(self):
     #     for i in range(self.population_size):
@@ -110,8 +110,8 @@ class Population:
             if left_to_eliminate < new_size*0.05:
                 break
 
-        if self.population_size != new_size:
-            print("new size = " + str(self.population_size))
+        # if self.population_size != new_size:
+        #     print("new size = " + str(self.population_size))
 
     def calculate_stats(self):
         # with Pool(processes=self.__processes__) as pool:

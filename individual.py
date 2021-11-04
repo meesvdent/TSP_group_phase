@@ -25,7 +25,7 @@ class Individual:
                 self.is_feasible = False
             else:
                 self.value += distances[from_city, to_city]
-        self.value += distances[-1, 0]
+        self.value += distances[self.route[-1], self.route[0]]
         return self.value
 
     def edge_crossover(self, parent2):
