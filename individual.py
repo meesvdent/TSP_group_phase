@@ -35,16 +35,16 @@ class Individual:
             pos1 = i+1
             if pos1 >= len(self.route):
                 pos1 = 0
-            edge_table[self.route[i]-1].append(self.route[i-1])
-            edge_table[self.route[i]-1].append(self.route[pos1])
+            edge_table[self.route[i]].append(self.route[i-1])
+            edge_table[self.route[i]].append(self.route[pos1])
             # print(edge_table)
             # print("\n")
 
             pos2 = np.where(parent2.route == self.route[i])[0][0] + 1
             if pos2 >= len(self.route):
                 pos2 = 0
-            edge_table[self.route[i]-1].append(parent2.route[np.where(parent2.route == self.route[i])[0][0]-1])
-            edge_table[self.route[i]-1].append(parent2.route[pos2])
+            edge_table[self.route[i]].append(parent2.route[np.where(parent2.route == self.route[i])[0][0]-1])
+            edge_table[self.route[i]].append(parent2.route[pos2])
 
         offspring = []
         # start from a random
