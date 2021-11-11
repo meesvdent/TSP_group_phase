@@ -17,7 +17,7 @@ class r0123456:
         offspring_size = 500
         k = 3
         mutation_prob = 0.1
-        iterations = 100
+        iterations = 0
         show_feasible = False
 
         # Read distance matrix from file.
@@ -38,17 +38,30 @@ class r0123456:
             print("Solutions not feasible= "+str(cnt))
         print("Initialization done")
 
-        while iterations != 0:
+        best_solutions = [population.best_solution.value]
+        mean_objectives = [population.mean_objective]
+        
+        unique_best = [0,0]
+        rsd_mean = 1
+        
+        while len(unique_best)!=1 or rsd_mean>0.0075:
 
             population.breed(offspring_size, k, mutation_prob)
             population.elimination(new_poputation_size, k)
             population.calculate_stats()
+            
+            best_solutions.append(population.best_solution)
+            mean_objectives.append(population.mean_objective)
+            
+            unique_best = set(best_solutions[-25:])
+            rsd_mean = np.std(mean_objectives[-15:])/np.mean(mean_objectives[-15:])
+            
             #    with city numbering starting from 0
             timeLeft = self.reporter.report(population.mean_objective, population.best_solution.value, np.array(population.best_solution.route))
             if timeLeft < 0:
                 break
 
-            iterations -= 1
+            iterations += 1
             print(iterations)
             if show_feasible:
                 cnt = 0
