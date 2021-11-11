@@ -14,7 +14,7 @@ class r0123456:
 
         poputation_size = 500
         new_poputation_size = 500
-        offspring_size = 250
+        offspring_size = 500
         k = 3
         mutation_prob = 0.1
         iterations = 100
@@ -57,6 +57,8 @@ class r0123456:
                         cnt += 1
                 print("Solutions not feasible= "+str(cnt))
                 print(population.best_solution.is_feasible)
+            print("Best value: ", population.best_solution.value)
+            print("Mean value: ", population.mean_objective)
         print("timeLeft= "+str(timeLeft))
         return 0
 
